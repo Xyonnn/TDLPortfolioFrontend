@@ -47,7 +47,7 @@ function RegisterPage() {
                 })
             });
 
-            //const data = await res.json();
+            const data = await res.json();
             navigate("/loginpage");
         }catch(err){
             console.error("FULL ERROR:", err);
