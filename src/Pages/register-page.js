@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import "../index.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
@@ -10,9 +10,12 @@ function RegisterPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    
 
     const RegisterFunction = async (e) => {
         e.preventDefault();
+        
 
         try{
             if (!email || !password || !username) {
@@ -44,7 +47,8 @@ function RegisterPage() {
                 })
             });
 
-            const data = await res.json();
+            //const data = await res.json();
+            navigate("/loginpage");
         }catch(err){
             console.error("FULL ERROR:", err);
             console.log("CODE:", err.code);
