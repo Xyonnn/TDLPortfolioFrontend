@@ -22,7 +22,7 @@ function LoginPage() {
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      await fetch("http://localhost:1412/api/protected", {
+      await fetch(`${process.env.REACT_APP_API_URL}/api/protected`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

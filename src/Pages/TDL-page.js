@@ -22,7 +22,7 @@ function TDLPage({user}){
         try {
             const token = await user.getIdToken();
 
-            const res = await fetch("http://localhost:1412/api/tasks", {
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -57,7 +57,7 @@ function TDLPage({user}){
 
             try{
                 const token = await user.getIdToken();
-                const res = await fetch("http://localhost:1412/api/user", {
+                const res = await fetch(`${process.env.REACT_APP_API_URL}/api/user`, {
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}`}
                 });
@@ -75,7 +75,7 @@ function TDLPage({user}){
 
         try{
             const token = await user.getIdToken();
-            const res = await fetch("http://localhost:1412/api/tasks", {
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
