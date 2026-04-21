@@ -8,14 +8,17 @@ import { onAuthStateChanged } from "firebase/auth";
 import TDLPage from "./Pages/TDL-page.js";
 import ResetPassword from "./Pages/resetPassword-page.js";
 import { Alert } from "./Pages/savedToast.js"
+import { InfoAlert } from "./Pages/modalWindow.js";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toastVisible, setToastVisible] = useState(false);
+  const [infoVisible, setinfoVisible] = useState(false);
 
   useEffect(() => {
-      setToastVisible(true);
+      setinfoVisible(true);
+      
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
@@ -31,10 +34,14 @@ function App() {
     return children;
   };
 
+  const test = () =>{
+    setinfoVisible(false);
+        setToastVisible(true);
+  }
+
   function Homepage() {
     return (
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-
         <div className="w-full flex justify-between items-center px-6 py-4 bg-gray-800">
           <Link to="/">
             <h1 className="text-xl font-bold">Homepage</h1>
@@ -58,6 +65,7 @@ function App() {
           <p className="text-gray-400">Portfolio</p>
         </div>
         <Alert title="Warning!" message="This website was created solely for my portfolio purposes. Please do not use any sensitive information." visible={toastVisible} onClose={()=> setToastVisible(false)} ></Alert>
+        <InfoAlert visible={infoVisible} onClose={test}></InfoAlert>
       </div>
       
     );
