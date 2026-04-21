@@ -1,7 +1,7 @@
 import "../index.css"
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import SaveToast from "./savedToast";
+import { SaveToast } from "./savedToast";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 

@@ -5,8 +5,8 @@ import RegisterPage from "./Pages/register-page.js";
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { Cog } from "lucide-react";
 import TDLPage from "./Pages/TDL-page.js";
+import ResetPassword from "./Pages/resetPassword-page.js";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,15 +36,9 @@ function App() {
           <Link to="/">
             <h1 className="text-xl font-bold">Homepage</h1>
           </Link>
-
-          <div className="flex items-center gap-4">
-            <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
-              <Cog size={20} />
-            </button>
-          </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center gap-8">
+        <div className="flex flex-1 flex-col md:flex-row items-center justify-center gap-8 px-4">
           <Link to="/tdlpage">
             <div className="w-64 h-64 bg-gray-800 rounded-2xl shadow-lg flex items-center justify-center text-white text-xl">
               To Do App
@@ -74,6 +68,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/loginpage" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/resetPassword" element={<ResetPassword/>}></Route>
         <Route
           path="/tdlpage"
           element={<ProtectedRoute user={user}><TDLPage user={user}/></ProtectedRoute>}
