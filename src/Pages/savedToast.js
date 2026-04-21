@@ -1,3 +1,5 @@
+import { X } from "lucide-react";
+
 export function SaveToast({ message, visible }) {
     return (
         <div
@@ -21,6 +23,25 @@ export function ResetToast({ title, message, visible }) {
             <p className="text-sm text-blue-100">
                 {message}
             </p>
+        </div>
+    );
+}
+
+export function Alert({ title, message, visible, onClose }){
+    return(
+        <div  className={`fixed bottom-6 right-6 w-[90%] max-w-sm px-5 py-4 rounded-xl shadow-lg flex items-start justify-between gap-4 text-yellow-900 transition-all duration-300
+                    ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} bg-yellow-400`}>
+            <h2 className="text-lg font-bold mb-1">
+                {title}
+            </h2>
+
+            <p className="text-sm text-black-100 font-bold">
+                {message}
+            </p>
+
+            <button onClick={onClose} className="hover:opacity-70 transition">
+                <X size={18} />
+            </button>
         </div>
     );
 }

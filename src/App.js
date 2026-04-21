@@ -7,12 +7,15 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import TDLPage from "./Pages/TDL-page.js";
 import ResetPassword from "./Pages/resetPassword-page.js";
+import { Alert } from "./Pages/savedToast.js"
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
+      setToastVisible(true);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
@@ -38,7 +41,7 @@ function App() {
           </Link>
         </div>
 
-        <div className="flex flex-1 flex-col md:flex-row items-center justify-center gap-8 px-4">
+        <div className="flex flex-1 flex-col md:flex-row items-center justify-center gap-5 px-4">
           <Link to="/tdlpage">
             <div className="w-64 h-64 bg-gray-800 rounded-2xl shadow-lg flex items-center justify-center text-white text-xl">
               To Do App
@@ -54,7 +57,9 @@ function App() {
         <div className="w-full text-center py-4 bg-gray-800">
           <p className="text-gray-400">Portfolio</p>
         </div>
+        <Alert title="Warning!" message="This website was created solely for my portfolio purposes. Please do not use any sensitive information." visible={toastVisible} onClose={()=> setToastVisible(false)} ></Alert>
       </div>
+      
     );
   }
 
