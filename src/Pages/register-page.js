@@ -35,9 +35,7 @@ function RegisterPage() {
 
             const user = userCredential.user;
 
-            console.log("FIREBASE OK:", user);
-
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
+            await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -46,9 +44,6 @@ function RegisterPage() {
                     username
                 })
             });
-
-            const data = await res.json();
-            console.log(data);
             navigate("/loginpage");
         }catch(err){
             console.error("FULL ERROR:", err);

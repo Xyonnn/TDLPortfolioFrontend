@@ -11,11 +11,8 @@ function ResetPassword(){
     const [showToast, setShowToast] = useState(false);
 
     const sendResetPassoword = () =>{
-         console.log("aa");
         sendPasswordResetEmail(auth, email)
         .then(() => {
-            console.log("Password reset mail sent!");
-
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
