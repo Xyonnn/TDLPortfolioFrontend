@@ -26,7 +26,7 @@ function ResetPassword(){
     return(
         <div className="h-screen flex items-center justify-center bg-gray-900">
 
-        <button className="absolute top-6 left-6 text-gray-300 hover:text-white text-lg"><Link to="/">← Home</Link></button>
+        <button className="absolute top-6 left-6 text-gray-300 hover:text-white text-lg"><Link to="/loginpage">← Back</Link></button>
 
             <div className="bg-gray-800 p-8 rounded-xl shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-3 text-center">You forget your password?</h2>
