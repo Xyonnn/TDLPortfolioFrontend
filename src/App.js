@@ -84,7 +84,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/resetPassword" 
-          element={<ProtectedRoute user={user} loading={loading}><ResetPassword user={user}/></ProtectedRoute>}>
+          element={<ResetPassword/>}>
         </Route>
         <Route
           path="/changePassword" 
