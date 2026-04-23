@@ -34,7 +34,7 @@ function App() {
     return children;
   };
 
-  const test = () =>{
+  const VisibilityofWarnings = () =>{
     setinfoVisible(false);
         setToastVisible(true);
   }
@@ -65,7 +65,7 @@ function App() {
           <p className="text-gray-400">Portfolio</p>
         </div>
         <Alert title="Warning!" message="This website was created solely for my portfolio purposes. Please do not use any sensitive information." visible={toastVisible} onClose={()=> setToastVisible(false)} ></Alert>
-        <InfoAlert visible={infoVisible} onClose={test}></InfoAlert>
+        <InfoAlert visible={infoVisible} onClose={VisibilityofWarnings}></InfoAlert>
       </div>
       
     );

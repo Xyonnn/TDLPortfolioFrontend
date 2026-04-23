@@ -45,3 +45,14 @@ export function Alert({ title, message, visible, onClose }){
         </div>
     );
 }
+
+export function ValidationWarnings({ message, visible }) {
+    return (
+        <div
+            className={`text-red-400 text-sm mt-1 transition-all duration-300
+            ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 h-0 overflow-hidden"}`}
+        >
+            {message}
+        </div>
+    );
+}
