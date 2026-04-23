@@ -31,15 +31,21 @@ function RegisterPage() {
             setEmailValidError("");
             setPasswordValidError("");
             setConPasswordValidError("");
-            const validChars = /^[a-zA-Z0-9_]+$/;
+            const validUsernameChars = /^[a-zA-Z0-9_]+$/;
+            const validPasswordChars = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,16}$/;
 
             if(!username){
                 setUserValidError("Username is required");
                 return;
             }
 
-            if (!validChars.test(username)) {
+            if (!validUsernameChars.test(username)) {
                 setUserValidError("Only letters, numbers and underscore allowed in username");
+                return;
+            }
+
+            if(username.length > 16){
+                setUserValidError("Username can only contain 16 characters");
                 return;
             }
 
@@ -55,6 +61,11 @@ function RegisterPage() {
 
             if(!password){
                 setPasswordValidError("Passowrd is required");
+                return;
+            }
+
+            if(!validPasswordChars.test(password)){
+                setPasswordValidError("Password must include uppercase, lowercase, number and special character");
                 return;
             }
 

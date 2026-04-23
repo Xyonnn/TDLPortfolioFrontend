@@ -1,6 +1,6 @@
 import "../index.css"
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SaveToast } from "./savedToast";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -14,6 +14,8 @@ function TDLPage({user}){
     const [tasks, setTasks] = useState(Array(10).fill(""));
     const [username, setUsername] = useState("");
     const [showToast, setShowToast] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef();
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -69,6 +71,17 @@ function TDLPage({user}){
         };
         fetchUserData();
     }, [user]);
+
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const harvestSaveTasks = async () => {
         if(!user) return;
@@ -127,19 +140,29 @@ function TDLPage({user}){
                             </Link>
                         </>
                     ) : (
-                        <>
-                            <div className="flex items-center gap-2 bg-gray-700 px-3 py-2 rounded-lg">
+                        <div className="relative" ref={menuRef}>
+                            <div onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-2 bg-gray-700 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-600 transition">
                                 <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
                                     {username?.charAt(0).toUpperCase()}
                                 </div>
-                                <span className="text-sm">
-                                    {username}
-                                </span>
+                                <span className="text-sm">{username}</span>
                             </div>
-                            <button onClick={handleLogout} className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg">
-                                Logout
-                            </button>
-                        </>
+                                {menuOpen && (
+                                    <div className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
+                                        <Link to="/changePassword">
+                                            <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
+                                                Change Password
+                                            </button>
+                                        </Link>
+                                        <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
+                                            Logout
+                                        </button>
+                                        <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
+                                            Info
+                                        </button>
+                                    </div>
+                                )}
+                        </div>
                     )}
                 </div>
             </div>

@@ -7,6 +7,7 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import TDLPage from "./Pages/TDL-page.js";
 import ResetPassword from "./Pages/resetPassword-page.js";
+import ChangePassword from "./Pages/changePassword-page.js"
 import { Alert } from "./Pages/savedToast.js"
 import { InfoAlert } from "./Pages/modalWindow.js";
 
@@ -81,11 +82,18 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/loginpage" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/resetPassword" element={<ResetPassword/>}></Route>
+        <Route
+          path="/resetPassword" 
+          element={<ProtectedRoute user={user} loading={loading}><ResetPassword user={user}/></ProtectedRoute>}>
+        </Route>
+        <Route
+          path="/changePassword" 
+          element={<ProtectedRoute user={user} loading={loading}><ChangePassword user={user}/></ProtectedRoute>}>
+        </Route>
         <Route
           path="/tdlpage"
-          element={<ProtectedRoute user={user}><TDLPage user={user}/></ProtectedRoute>}
-        />
+          element={<ProtectedRoute user={user} loading={loading}><TDLPage user={user}/></ProtectedRoute>}>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
