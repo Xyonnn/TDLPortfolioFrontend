@@ -149,17 +149,18 @@ function TDLPage({user}){
                             </div>
                                 {menuOpen && (
                                     <div className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
+                                        <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
+                                            Info
+                                        </button>
                                         <Link to="/changePassword">
                                             <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
-                                                Change Password
+                                                User Settings
                                             </button>
                                         </Link>
                                         <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
                                             Logout
                                         </button>
-                                        <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
-                                            Info
-                                        </button>
+                                        
                                     </div>
                                 )}
                         </div>
@@ -174,7 +175,7 @@ function TDLPage({user}){
                     </h2>
 
                 {tasks.map((task, index) => (
-                    <input key={index} type="text" value={task} placeholder={`Task ${index + 1}`}
+                    <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
                     onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
                     className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                 ))}
