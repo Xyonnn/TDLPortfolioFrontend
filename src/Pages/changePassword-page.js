@@ -133,13 +133,14 @@ function ChangePassword(){
     
 
     return (
-    <div className="h-screen flex items-center justify-center bg-gray-900 px-4">
+    <div className="min-h-screen flex flex-col md:items-center md:justify-center bg-gray-900 px-4">
+        <div className="w-full max-w-4xl sticky top-0 z-40 bg-gray-900 py-4 md:fixed md:top-6 md:left-6 md:w-auto md:bg-transparent md:p-0">
+            <button className="text-gray-300 hover:text-white text-lg">
+                <Link to="/tdlpage">← Back</Link>
+            </button>
+        </div>
         
-        <button className="absolute top-6 left-6 text-gray-300 hover:text-white text-lg">
-            <Link to="/tdlpage">← Back</Link>
-        </button>
-
-        <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
+        <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl mt-4 md:mt-0">
             <div className="bg-gray-800 p-8 rounded-xl shadow-lg w-full">
                 <h2 className="text-2xl font-bold text-white mb-3 text-center">
                     Password Change

@@ -4,6 +4,7 @@ import "../index.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { ValidationWarnings } from "./savedToast";
+import { Eye, EyeOff } from "lucide-react";
 
 
 function RegisterPage() {
@@ -17,6 +18,9 @@ function RegisterPage() {
     const [emailValidError, setEmailValidError] = useState("");
     const [passwordValidError, setPasswordValidError] = useState("");
     const [conPasswordValidError, setConPasswordValidError] =useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConPassword, setShowConPassword] = useState(false);
 
     const navigate = useNavigate();
     
@@ -126,11 +130,21 @@ function RegisterPage() {
 
                 <input type="email" placeholder="Email" onChange={(e)=>{setEmail(e.target.value); setEmailValidError("")}} className="p-3 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500"/>
                 <ValidationWarnings message={emailValidError} visible={!!emailValidError}></ValidationWarnings>
-
-                <input type="password" placeholder="Password"  onChange={(e)=>{setPassword(e.target.value); setPasswordValidError("")}} className="p-3 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500"/>
+                
+                <div className="relative">
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" onChange={(e) => { setPassword(e.target.value); setPasswordValidError("");}} className="p-3 pr-10 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500 w-full"/>
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                            {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                        </button>
+                </div>
                 <ValidationWarnings message={passwordValidError} visible={!!passwordValidError}></ValidationWarnings>
 
-                <input type="password" placeholder="Confirm Password" onChange={(e)=>{setConPassword(e.target.value); setConPasswordValidError("")}} className="p-3 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500"/>
+                <div className="relative">
+                    <input type={showConPassword ? "text" : "password"} placeholder="Confirm Password" onChange={(e) => { setConPassword(e.target.value); setConPasswordValidError("");}} className="p-3 pr-10 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500 w-full"/>
+                        <button type="button" onClick={() => setShowConPassword(!showConPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                            {showConPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                        </button>
+                    </div>
                 <ValidationWarnings message={conPasswordValidError} visible={!!conPasswordValidError}></ValidationWarnings>
 
                 <button type="submit" className="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold transition">Register</button>
