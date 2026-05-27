@@ -7,18 +7,16 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import TDLPage from "./Pages/TDL-page.js";
 import ResetPassword from "./Pages/resetPassword-page.js";
-import ChangePassword from "./Pages/changePassword-page.js"
-import { Alert } from "./Pages/savedToast.js"
-import { InfoAlert } from "./Pages/modalWindow.js";
+import ChangePassword from "./Pages/changePassword-page.js";
+import { InfoPage } from "./Pages/info-page.js";
+import { Alert } from "./Pages/savedToast.js";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [toastVisible, setToastVisible] = useState(false);
-  const [infoVisible, setinfoVisible] = useState(false);
+  const [toastVisible, setToastVisible] = useState(true);
 
   useEffect(() => {
-      setinfoVisible(true);
       
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -35,45 +33,94 @@ function App() {
     return children;
   };
 
-  const VisibilityofWarnings = () =>{
-    setinfoVisible(false);
-        setToastVisible(true);
-  }
-
   function Homepage() {
     return (
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        <div className="w-full flex justify-between items-center px-6 py-4 bg-gray-800">
-          <Link to="/">
-            <h1 className="text-xl font-bold">Homepage</h1>
-          </Link>
-        </div>
+        <div className="flex flex-1 flex-col md:flex-row items-center justify-center gap-6 px-4 py-10">
+          <Link to="/tdlpage" className="w-full max-w-sm">
+            <div className="bg-gray-800 hover:bg-gray-700 transition-all duration-300 rounded-2xl shadow-xl p-8 h-64 flex flex-col justify-between border border-gray-700 hover:border-blue-500 hover:scale-[1.02]">
+              <div>
+                <h2 className="text-3xl font-bold text-white">
+                  To Do App
+                </h2>
 
-        <div className="flex flex-1 flex-col md:flex-row items-center justify-center gap-5 px-4">
-          <Link to="/tdlpage">
-            <div className="w-64 h-64 bg-gray-800 rounded-2xl shadow-lg flex items-center justify-center text-white text-xl">
-              To Do App
+                <p className="text-gray-400 mt-3 text-sm leading-relaxed">
+                  Simple task management application built with React, Node.js and Tailwind CSS.
+                </p>
+              </div>
+
+              <div className="flex gap-2 flex-wrap">
+                <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                  React
+                </span>
+
+                <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                  Node.js
+                </span>
+
+                <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                  Firebase
+                </span>
+
+                <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                  MongoDB
+                </span>
+              </div>
             </div>
           </Link>
 
-          <div className="w-64 h-64 bg-gray-800 rounded-2xl shadow-lg text-center flex items-center justify-center text-white text-xl">
-            Mini Shop<br></br>
-            Under Construction
+          <div className="w-full max-w-sm">
+            { /* 
+              =======================
+              dodac link do minishop 
+              =======================
+            */}
+            <a href="/">
+            <div className="bg-gray-800 hover:bg-gray-700 transition-all duration-300 rounded-2xl shadow-xl p-8 h-64 flex flex-col justify-between border border-gray-700 hover:border-blue-500 hover:scale-[1.02]">
+              <div>
+                <h2 className="text-3xl font-bold text-white">
+                  Mini Shop
+                </h2>
+
+                <p className="text-gray-400 mt-3 text-sm leading-relaxed">
+                  Small e-commerce project built with TypeScript, Next.js and Tailwind CSS.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex gap-2 flex-wrap">
+                  <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                    TypeScript
+                  </span>
+
+                  <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                    MongoDB
+                  </span>
+
+                  <span className="bg-gray-700 text-xs text-gray-300 px-3 py-1 rounded-full">
+                    Next.js
+                  </span>
+                </div>
+
+                <span className="text-yellow-400 text-sm font-medium">
+                  Under Construction
+                </span>
+              </div>
+            </div>
+            </a>
           </div>
         </div>
 
         <div className="w-full text-center py-4 bg-gray-800">
-          <p className="text-gray-400">Portfolio</p>
+          <span className="text-gray-400">Made by </span>
+            <a href="https://github.com/Xyonnn" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors duration-200 font-medium">
+              Xyon
+            </a>
         </div>
-        <Alert title="Warning!" message="This website was created solely for my portfolio purposes. Please do not use any sensitive information." visible={toastVisible} onClose={()=> setToastVisible(false)} ></Alert>
-        <InfoAlert visible={infoVisible} onClose={VisibilityofWarnings}></InfoAlert>
+        <Alert title="Warning!" message="This website was created solely for my portfolio purposes. Please do not use any sensitive information." visible={toastVisible} onClose={() => setToastVisible(false)}/>
       </div>
       
     );
-  }
-
-  if (loading) {
-    return <div className="text-white">Loading...</div>;
   }
 
   return (
@@ -82,6 +129,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/loginpage" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/infopage" element={<InfoPage />}/>
         <Route
           path="/resetPassword" 
           element={<ResetPassword/>}>

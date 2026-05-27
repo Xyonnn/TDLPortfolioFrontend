@@ -5,12 +5,15 @@ import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
 import { ValidationWarnings } from "./savedToast";
+import { InfoAlert } from "./modalWindow";
+
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showError, setError] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(true);
   const navigate = useNavigate();
 
   const LoginFunction = async (e) => {
@@ -38,6 +41,10 @@ function LoginPage() {
       }catch (err) {
         setError(true);
       }
+    };
+
+    const handleInfoClose = () => {
+      setInfoVisible(false);
     };
 
   return (
@@ -68,7 +75,9 @@ function LoginPage() {
             <span className="text-blue-400 cursor-pointer"><Link to="/register">Register</Link></span>
           </p>
       </div>
+      <InfoAlert visible={infoVisible} onClose={handleInfoClose} />
     </div>
+    
   );
 }
 

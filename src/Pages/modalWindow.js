@@ -1,29 +1,34 @@
-export function InfoAlert({ visible, onClose }){
-   if (!visible) return null;
-  return(
-    <div className={`fixed inset-0 z-50 flex items-center justify-center 
-              ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+import { Info } from "lucide-react";
 
-      <div className="absolute inset-0 bg-black/50"/>
+export function InfoAlert({ visible, onClose }) {
+  if (!visible) return null;
 
-        <div className="relative z-10 bg-gray-600 rounded-2xl shadow-lg p-6 w-96">
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose}/>
+        <div className="relative z-10 w-full max-w-md rounded-2xl bg-gray-800 shadow-2xl border border-gray-700 p-6 animate-[fadeIn_0.2s_ease-out]">
+          <div className="flex items-center gap-3 mb-4">
 
-          <h2 className="text-lg font-bold mb-1">
-            Important information
-          </h2>
+            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
+              <Info size={20} className="animate-pulse" />
+            </div>
 
-          <p className="text-sm text-blue-100 mb-4 font-bold">
-            Because this site is built on free providers,<br></br> some features may take longer than expected <br></br>(for example, registration or login), so please be patient.
-          </p>
-
-          <div className="flex justify-end gap-3">
-            <button onClick={onClose} className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500">
-              Confirm
-            </button>
+            <h2 className="text-xl font-bold text-white">
+              Important information
+            </h2>
           </div>
 
-        </div>
+          <p className="text-gray-300 text-sm leading-relaxed mb-6">
+            Because this site is built on free hosting providers, some features may take longer than expected (for example login or registration).<br />
+            <span className="text-gray-400">Please be patient -- first load may take a few seconds.</span>
+          </p>
 
+          <div className="flex justify-end">
+            <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 transition text-white font-semibold shadow-md">
+              Got it
+            </button>
+          </div>
+      </div>
     </div>
   );
 }
