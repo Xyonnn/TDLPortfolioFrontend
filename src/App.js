@@ -74,7 +74,7 @@ function App() {
               dodac link do minishop 
               =======================
             */}
-            <a href="/">
+            <a href="https://mini-shop-portfolio-six.vercel.app">
             <div className="bg-gray-800 hover:bg-gray-700 transition-all duration-300 rounded-2xl shadow-xl p-8 h-64 flex flex-col justify-between border border-gray-700 hover:border-blue-500 hover:scale-[1.02]">
               <div>
                 <h2 className="text-3xl font-bold text-white">
