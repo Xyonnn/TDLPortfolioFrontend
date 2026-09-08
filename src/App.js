@@ -1,5 +1,6 @@
 import "./index.css";
 import Footer from "./components/footerComp";
+import TDLPage from "./Pages/TDL-page";
 
 function App() {
   /*
@@ -26,6 +27,12 @@ function App() {
 
   return (
     <div className="scroll-smooth flex min-h-screen flex-col bg-gray-900 text-white">
+      {/* 
+        wjebac tu mainpage tak jak bylo po zalogowaniu
+        dac opacity i dac window z logowaniem albo jako gosc zeby bylo na obczajenie
+        logika po zalogowaniu (wylaczenie okna i pozniej to co w notatniku mam)
+      */}
+      <TDLPage/>
       <Footer/>
     </div>
     /*

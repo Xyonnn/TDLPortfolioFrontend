@@ -7,11 +7,17 @@ import { signOut } from "firebase/auth";
 
     
 
-function TDLPage({user}){
-
+export default function TDLPage({user}){
+    /*
     
     const [loadingTasks, setLoadingTasks] = useState(true);
+    */
     const [tasks, setTasks] = useState(Array(10).fill(""));
+    for(let a = 0; a > 10; a++){
+        const loadedTasks = Array(10).fill("");
+        setTasks(loadedTasks);
+    }
+    /*
     const [username, setUsername] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -116,9 +122,34 @@ function TDLPage({user}){
             console.log(err);
         }
     };
+    */
 
 
     return(
+        
+                
+        <div className="flex flex-1 items-center justify-center">
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
+                <h2 className="text-2xl font-bold mb-4 text-center">
+                    To Do List
+                </h2>
+
+                {tasks.map((task, index) => (
+                    <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
+                    onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
+                    className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                ))}
+
+                <div className="flex justify-start mt-2">
+                    <button onClick={2} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Save Tasks</button>
+                </div>
+
+                <SaveToast message="Saved" /*visible={showToast}*/ />
+            </div> 
+        </div>
+
+
+/*
         <div className="flex flex-col min-h-screen bg-gray-900 text-white">
 
             <div className="w-full flex justify-between items-center px-6 py-4 bg-gray-800">
@@ -167,35 +198,6 @@ function TDLPage({user}){
                     )}
                 </div>
             </div>
-
-            <div className="flex flex-1 items-center justify-center">
-                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
-                    <h2 className="text-2xl font-bold mb-4 text-center">
-                        To Do List
-                    </h2>
-
-                {tasks.map((task, index) => (
-                    <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
-                    onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
-                    className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                ))}
-
-                 <div className="flex justify-start mt-2">
-                    <button onClick={harvestSaveTasks} disabled={loadingTasks} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Save Tasks</button>
-                </div>
-                    <SaveToast message="Saved" visible={showToast} />
-                </div>
-
-            </div>
-
-            <div className="w-full text-center py-4 bg-gray-800">
-                <p className="text-gray-400">Portfolio</p>
-            </div>
-            
-            
-        </div>
-        
-    )
+                */
+    );
 }
-
-export default TDLPage;
