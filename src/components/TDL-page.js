@@ -1,9 +1,9 @@
 import "../index.css"
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import { SaveToast } from "./savedToast";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+//import { Link } from "react-router-dom";
+import { useState/*, useEffect, useRef */} from "react";
+//import { SaveToast } from "./savedToast";
+//import { auth } from "../firebase";
+//import { signOut } from "firebase/auth";
 
     
 
@@ -125,29 +125,40 @@ export default function TDLPage({user}){
     */
 
 
-    return(
-        
-                
+    return( 
         <div className="flex flex-1 items-center justify-center">
-            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4 text-center">
-                    To Do List
-                </h2>
+            <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
+                    <h2 className="text-2xl font-bold mb-4 text-center">
+                        To Do List
+                    </h2>
 
-                {tasks.map((task, index) => (
-                    <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
-                    onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
-                    className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                ))}
-
-                <div className="flex justify-start mt-2">
-                    <button onClick={2} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Save Tasks</button>
+                    {tasks.map((task, index) => (
+                        <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
+                        onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
+                        className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    ))}
                 </div>
 
-                <SaveToast message="Saved" /*visible={showToast}*/ />
-            </div> 
-        </div>
+                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
+                    <h2 className="text-2xl font-bold mb-4 text-center">
+                        Task Options
+                    </h2>
 
+                    {/* Nazwa taska */}
+                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    {/* Nazwa description */}
+                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    {/* due time */}
+                    <input type="number" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    {/* waznosc taska (wyswietlanie) */}
+                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <div className="flex justify-start mt-2">
+                        <button onClick={2} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Add new task</button>
+                    </div>
+                </div> 
+            </div>
+        </div>
 
 /*
         <div className="flex flex-col min-h-screen bg-gray-900 text-white">

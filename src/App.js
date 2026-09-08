@@ -1,6 +1,6 @@
 import "./index.css";
 import Footer from "./components/footerComp";
-import TDLPage from "./Pages/TDL-page";
+import TDLPage from "./components/TDL-page";
 
 function App() {
   /*
@@ -34,6 +34,12 @@ function App() {
       */}
       <TDLPage/>
       <Footer/>
+
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/70 backdrop-blur-sm">
+        <h1 className="text-center text-4xl font-semibold tracking-tight text-white">
+          Under Construction
+        </h1>
+      </div>
     </div>
     /*
     <BrowserRouter>
