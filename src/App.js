@@ -1,6 +1,8 @@
 import "./index.css";
 import Footer from "./components/footerComp";
 import TDLPage from "./components/TDL-page";
+import AuthModal from "./components/AuthModal";
+import { useState } from "react";
 
 function App() {
   /*
@@ -25,8 +27,11 @@ function App() {
     return children;
   };*/
 
+  const [showAuthModal, setShowAuthModal] = useState(true);
+
   return (
     <div className="scroll-smooth flex min-h-screen flex-col bg-gray-900 text-white">
+      
       {/* 
         wjebac tu mainpage tak jak bylo po zalogowaniu
         dac opacity i dac window z logowaniem albo jako gosc zeby bylo na obczajenie
@@ -34,12 +39,7 @@ function App() {
       */}
       <TDLPage/>
       <Footer/>
-
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/70 backdrop-blur-sm">
-        <h1 className="text-center text-4xl font-semibold tracking-tight text-white">
-          Under Construction
-        </h1>
-      </div>
+      {showAuthModal && <AuthModal guest={() => setShowAuthModal(false)} />}
     </div>
     /*
     <BrowserRouter>
