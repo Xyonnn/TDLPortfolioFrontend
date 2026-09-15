@@ -15,7 +15,7 @@ export function ResetToast({ title, message, visible }) {
     return (
         <div
             className={`fixed top-6 left-1/2 transform -translate-x-1/2  w-[90%] max-w-md px-6 py-4 rounded-xl shadow-lg text-white transition-all duration-300
-                ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"} bg-blue-600`}>
+                ${visible ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"} bg-blue-600`}>
             <h2 className="text-lg font-bold mb-1">
                 {title}
             </h2>
