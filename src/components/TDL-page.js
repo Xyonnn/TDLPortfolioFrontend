@@ -1,138 +1,56 @@
 import "../index.css"
-//import { Link } from "react-router-dom";
-import { useState/*, useEffect, useRef */} from "react";
-//import { SaveToast } from "./savedToast";
-//import { auth } from "../firebase";
-//import { signOut } from "firebase/auth";
-
-    
+import { useState, useEffect, useRef } from "react";
+import api from "../api/axiosInstance";
 
 export default function TDLPage({user}){
-    /*
-    
-    const [loadingTasks, setLoadingTasks] = useState(true);
-    */
-    const [tasks, setTasks] = useState(Array(10).fill(""));
-    for(let a = 0; a > 10; a++){
-        const loadedTasks = Array(10).fill("");
-        setTasks(loadedTasks);
-    }
-    /*
-    const [username, setUsername] = useState("");
-    const [showToast, setShowToast] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
-    const menuRef = useRef();
+
+    const [tasks, setTasks] = useState([]);
+    const [getUser, setUser] = useState(null);
+    const [showTaskBox, setShowTaskBox] = useState(false);
+    const taskBoxRef = useRef(null);
 
     useEffect(() => {
-        const fetchTasks = async () => {
         if (!user) return;
+        const fetchTasks = async () => {
+            try {
+                const profRes = await api.get('/api/user');
+                setUser(profRes.data);
 
-        try {
-            const token = await user.getIdToken();
+                const taskRes = await api.get('/api/tasks');
+                setTasks(taskRes.data);
 
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            });
-            const data = await res.json();
-
-            if (data.length > 0) {
-            const loadedTasks = Array(10).fill("");
-
-            data.forEach((task, index) => {
-                if (index < 10) {
-                loadedTasks[index] = task.taskName;
-                }
-            });
-
-            setTasks(loadedTasks);
+            } catch (err) {
+                console.error(err);
             }
-
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoadingTasks(false);
-        }
         };
-
         fetchTasks();
     }, [user]);
 
-    useEffect(() =>{
-        const fetchUserData = async () =>{
-            if(!user) return;
+    const toggleTaskBox = () =>{
+        const willOpen = !showTaskBox;
+        setShowTaskBox(willOpen);
 
-            try{
-                const token = await user.getIdToken();
-                const res = await fetch(`${process.env.REACT_APP_API_URL}/api/user`, {
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}`}
+        if(willOpen){
+            setTimeout(() =>{
+                taskBoxRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
                 });
-                const data = await res.json();
-                setUsername(data.username);
-            }catch(err){
-                console.log(err);
-            }
-        };
-        fetchUserData();
-    }, [user]);
-
-    useEffect(() => {
-        function handleClickOutside(e) {
-            if (menuRef.current && !menuRef.current.contains(e.target)) {
-                setMenuOpen(false);
-            }
+            }, 100);
         }
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    const harvestSaveTasks = async () => {
-        if(!user) return;
-
-        try{
-            const token = await user.getIdToken();
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({tasks})
-            });
-            const data = await res.json();
-            console.log(data);
-
-            setShowToast(true);
-
-            setTimeout(() => {
-                setShowToast(false);
-            }, 2000);
-        }catch(err){
-            console.log(err);
-        }
-    };
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    */
-
-
+    }
     return( 
-        <div className="flex flex-1 items-center justify-center">
-            <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
-                    <h2 className="text-2xl font-bold mb-4 text-center">
-                        To Do List
-                    </h2>
-
+        <div className="flex flex-1 items-center justify-center py-10 px-4">
+            <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl md:items-start md:justify-center">
+                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md h-fit flex-shrink-0">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-2xl font-bold">
+                            To Do List
+                        </h2>
+                        <button onClick={toggleTaskBox} className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition text-xl font-bold leading-none">
+                            {showTaskBox ? "-" : "+"}
+                        </button>
+                    </div>
                     {tasks.map((task, index) => (
                         <input key={index} type="text" value={task} maxLength={35} placeholder={`Task ${index + 1}`}
                         onChange={(e) => { const newTasks = [...tasks]; newTasks[index] = e.target.value; setTasks(newTasks);}}
@@ -140,75 +58,28 @@ export default function TDLPage({user}){
                     ))}
                 </div>
 
-                <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
-                    <h2 className="text-2xl font-bold mb-4 text-center">
-                        Task Options
-                    </h2>
+                <div ref={taskBoxRef} className={`overflow-hidden transition-all duration-500 ease-in-out grid ${showTaskBox ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} md:grid-rows-none md:block ${showTaskBox ? "md:w-full md:max-w-md" : "md:w-0"}`}>
+                    <div className="overflow-hidden">
+                        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
+                            <h2 className="text-2xl font-bold mb-4 text-center">
+                                Task Options
+                            </h2>
+                            {/* Nazwa taska */}
+                            <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                            {/* Nazwa description */}
+                            <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                            {/* due time */}
+                            <input type="number" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                            {/* waznosc taska (wyswietlanie) */}
+                            <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
 
-                    {/* Nazwa taska */}
-                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    {/* Nazwa description */}
-                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    {/* due time */}
-                    <input type="number" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    {/* waznosc taska (wyswietlanie) */}
-                    <input type="text" className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <div className="flex justify-start mt-2">
-                        <button onClick={2} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Add new task</button>
-                    </div>
-                </div> 
-            </div>
-        </div>
-
-/*
-        <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-
-            <div className="w-full flex justify-between items-center px-6 py-4 bg-gray-800">
-                    <Link to="/">
-                        <h1 className="text-xl font-bold">Homepage</h1>
-                    </Link>
-                <div className="flex items-center gap-4">
-                    {!user ? (
-                        <>
-                            <Link to="/loginpage">
-                                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">
-                                    Login
-                                </button>
-                            </Link>
-                            <Link to="/register">
-                                <button className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg">
-                                    Register
-                                </button>
-                            </Link>
-                        </>
-                    ) : (
-                        <div className="relative" ref={menuRef}>
-                            <div onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-2 bg-gray-700 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-600 transition">
-                                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
-                                    {username?.charAt(0).toUpperCase()}
-                                </div>
-                                <span className="text-sm">{username}</span>
+                            <div className="flex justify-start mt-2">
+                                <button onClick={() => {}} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Add new task</button>
                             </div>
-                                {menuOpen && (
-                                    <div className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
-                                        <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
-                                            Info
-                                        </button>
-                                        <Link to="/changePassword">
-                                            <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
-                                                User Settings
-                                            </button>
-                                        </Link>
-                                        <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
-                                            Logout
-                                        </button>
-                                        
-                                    </div>
-                                )}
-                        </div>
-                    )}
+                        </div> 
+                    </div>
                 </div>
             </div>
-                */
+        </div>
     );
 }

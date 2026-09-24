@@ -2,13 +2,14 @@ import "./index.css";
 import Footer from "./components/footerComp";
 import TDLPage from "./components/TDL-page";
 import AuthModal from "./components/AuthModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 function App() {
-  /*
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [toastVisible, setToastVisible] = useState(true);
+  const [guest, setGuest] = useState(false);
 
   useEffect(() => {
       
@@ -20,14 +21,15 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  const ProtectedRoute = ({ user, children }) => {
-    if (!user) {
-      return <Navigate to="/loginpage" />;
-    }
-    return children;
-  };*/
+  if(loading){
+    return(
+      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+        Loading
+      </div>
+    );
+  }
 
-  const [showAuthModal, setShowAuthModal] = useState(true);
+  const showAuthModal = !user && !guest;
 
   return (
     <div className="scroll-smooth flex min-h-screen flex-col bg-gray-900 text-white">
@@ -37,9 +39,9 @@ function App() {
         dac opacity i dac window z logowaniem albo jako gosc zeby bylo na obczajenie
         logika po zalogowaniu (wylaczenie okna i pozniej to co w notatniku mam)
       */}
-      <TDLPage/>
+      <TDLPage user={user}/>
       <Footer/>
-      {showAuthModal && <AuthModal guest={() => setShowAuthModal(false)} />}
+      {showAuthModal && <AuthModal guest={() => setGuest(true)} />}
     </div>
     /*
     <BrowserRouter>

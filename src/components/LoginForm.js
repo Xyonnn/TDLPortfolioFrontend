@@ -20,7 +20,7 @@ export default function LoginForm({switchRegister, switchReset}){
         }catch (err) {
             setError(true);
         }
-        };
+    };
 
     return(
         <> 
