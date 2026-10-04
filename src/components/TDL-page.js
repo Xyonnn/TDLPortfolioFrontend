@@ -1,6 +1,7 @@
 import "../index.css"
 import { useState, useEffect, useRef } from "react";
 import api from "../api/axiosInstance";
+import { AddTaskBox, EditTaskBox } from "./TaskOprionComp";
 
 export default function TDLPage({user}){
     const [getUser, setUser] = useState(null);
@@ -10,7 +11,8 @@ export default function TDLPage({user}){
     const [showTaskBox, setShowTaskBox] = useState(false);
     const taskBoxRef = useRef(null);
 
-    const [boxData, setBoxData] = useState({ taskName: "", description: "", dueDay: "", priority: "" });
+    const [boxData, setBoxData] = useState({ taskName: "", description: "", dueDate: "", priority: "" });
+    const isEditingExisting = selectedTask !== null && tasks[selectedTask] !== null;
 
     useEffect(() => {
         if (!user) return;
@@ -40,8 +42,8 @@ export default function TDLPage({user}){
         if(selectedTask === null) return;
         const task = tasks[selectedTask];
         setBoxData(task 
-            ? { taskName: task.taskName, description: task.description || "", dueDay: task.dueDay || "", priority: task.priority || "" } 
-            : { taskName: "", description: "", dueDay: "", priority: "" });
+            ? { taskName: task.taskName, description: task.description || "", dueDate: task.dueDate || "", priority: task.priority || "" } 
+            : { taskName: "", description: "", dueDate: "", priority: "" });
     }, [selectedTask, tasks]);
 
     const toggleTaskBox = (id) =>{
@@ -68,7 +70,7 @@ export default function TDLPage({user}){
         updateTask[selectedTask] = { ...(tasks[selectedTask] || {}), 
             taskName: boxData.taskName,
             description: boxData.description,
-            dueDay: boxData.dueDay,
+            dueDate: boxData.dueDate,
             priority: boxData.priority
         }
         setTasks(updateTask);
@@ -95,34 +97,11 @@ export default function TDLPage({user}){
 
                 <div ref={taskBoxRef} className={`overflow-hidden transition-all duration-500 ease-in-out grid ${showTaskBox ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} md:grid-rows-none md:block ${showTaskBox ? "md:w-full md:max-w-md" : "md:w-0"}`}>
                     <div className="overflow-hidden">
-                        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md">
-                            <h2 className="text-2xl font-bold mb-4 text-center">
-                                Task Options
-                            </h2>
-                            {/* Nazwa taska */}
-                            <input type="text" placeholder="Task Name" value={boxData.taskName} 
-                            onChange={(e)=> {setBoxData({ ...boxData, taskName: e.target.value})}}
-                            className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-
-                            {/* Nazwa description */}
-                            <input type="text"placeholder="Description" value={boxData.description} 
-                            onChange={(e)=> {setBoxData({ ...boxData, description: e.target.value})}}
-                             className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-
-                            {/* due time */}
-                            <input type="number" placeholder="Due Time (days)" value={boxData.dueDay} 
-                            onChange={(e)=> {setBoxData({ ...boxData, dueDay: e.target.value})}}
-                            className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-
-                            {/* waznosc taska (wyswietlanie) */}
-                            <input type="number" placeholder="Priority (1-10)" value={boxData.priority} 
-                            onChange={(e)=> {setBoxData({ ...boxData, priority: e.target.value})}}
-                            className="w-full mb-2 px-3 py-2 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-
-                            <div className="flex justify-start mt-2">
-                                <button onClick={saveTask} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Add new task</button>
-                            </div>
-                        </div> 
+                        {isEditingExisting ? (
+                            <EditTaskBox boxData={boxData} setBoxData={setBoxData} onSave={saveTask}/>
+                        ) : (
+                            <AddTaskBox boxData={boxData} setBoxData={setBoxData} onSave={saveTask}/>
+                        )}
                     </div>
                 </div>
             </div>
